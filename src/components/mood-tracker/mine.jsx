@@ -1,3 +1,110 @@
+import { Component } from 'react'
+import MoodPoints from '../mood-points/MoodPoints'
+import MoodNote from '../mood-note/MoodNote'
+// import placeholderNotes from './placeholderNotes'
+
+export default class MoodTracker extends Component {
+    // Create state and set inital state
+    // constructor(props) {
+        // Invoke super first!
+        // Get functionality from Component  
+        // super(props)
+        // this.state = {
+        //     points: 11
+        // }
+    // }
+    state = {
+        points: 11,
+        noteInput: '',
+        NoteData: []
+    }
+
+    // Event Handler
+    handleIncreaseMood = () => {
+        this.setState((prevState) => {
+            return {
+                points: prevState.points + 1
+            }
+        })
+    }
+
+    handleDecreaseMood = () => {
+        this.setState((prevState) => {
+            return {
+                points: prevState.points - 1
+            }
+        })
+    }
+
+    handleInputChange = (e) => {
+        this.setState({
+            noteInput: e.target.value
+        }, () => console.log(this.state))
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault()
+        console.log(e)
+        this.setState((prevState) => {
+            const newNoteData = {
+                note: prevState.noteInput,
+                date: new Date().toLocaleDateString(),
+                points: prevState.points
+            }
+            return {
+                // BAD vv
+                // noteData: prevState.noteData.push(newNotedata)
+                //concatenation to make a new array and set state
+                // noteData: prevState.noteData.concat([newNoteData])
+                noteData: [...prevState.noteData, newNoteData]
+            }
+        })
+    }
+
+    render() {
+        const noteComponents = this.state.noteData.map((placeholderNote, index) => {
+            return (
+              <MoodNote 
+                key={`${index}`}
+                points={placeholderNote.points}
+                date={placeholderNote.date}
+                note={placeholderNote.note}
+              />
+            )
+          })
+
+        return (
+        <div>
+           <MoodPoints points ={this.state.points}/>
+
+           <button onClick={this.handleIncreaseMood}><b>+</b>🎸</button>
+           <button onClick={this.handleDecreaseMood}><b>–</b>🎸</button>
+
+        <h3>My Notes:</h3>
+        
+        <form onSubmit={this.handleSubmit}>
+            <label htmlFor='note-input'>New Note:</label>
+
+            <input 
+                id='note-input'
+                type='text'
+                placeholder='how ya doin?'
+                onChange={this.handleInputChange}
+                value={this.state.noteInput}
+            />
+
+            <input 
+                type='submit'
+                value='Save Note'
+            />
+        </form>
+
+            {noteComponents}
+        </div>
+        )
+    }
+}
+
 import { Component } from 'react' 
 import MoodPoints from '../mood-points/MoodPoints.jsx'
 import MoodNote from '../mood-note/MoodNote.jsx'
