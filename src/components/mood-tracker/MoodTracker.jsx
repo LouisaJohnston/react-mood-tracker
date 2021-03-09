@@ -89,9 +89,9 @@ export default class MoodTracker extends Component {
       <div>
         <MoodPoints points={this.state.points} />
 
-        <button onClick={this.handleIncreaseMood}>🎸</button>
+        <button onClick={this.handleIncreaseMood}><b>+</b>🎸</button>
 
-        <button onClick={this.handleDecreaseMood}>☠️</button>
+        <button onClick={this.handleDecreaseMood}><b>–</b>🎸</button>
 
         <h3>My Notes:</h3>
 
